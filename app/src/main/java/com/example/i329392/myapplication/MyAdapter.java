@@ -35,7 +35,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(MyAdapter.ViewHolder holder, int position) {
         CardData card = mList.get(position);
-        holder.text.setText(card.getText());
+//        holder.text.setText(card.getText());
         Picasso.with(context).load(card.getPhotoUrl()).into(holder.photo);
     }
 
@@ -48,11 +48,12 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         ImageView photo;
-        TextView text;
+//        TextView text;
         public ViewHolder(View itemView) {
             super(itemView);
             photo = itemView.findViewById(R.id.photo);
-            text = itemView.findViewById(R.id.description);
+//            photo.getLayoutParams().height = photo.getMeasuredWidth();
+//            text = itemView.findViewById(R.id.description);
         }
     }
 
