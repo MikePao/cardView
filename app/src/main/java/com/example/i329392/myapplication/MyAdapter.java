@@ -47,7 +47,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView photo;
+//        ImageView photo;
+        SquareImageView photo;
 //        TextView text;
         public ViewHolder(View itemView) {
             super(itemView);
