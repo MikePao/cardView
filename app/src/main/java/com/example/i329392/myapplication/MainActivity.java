@@ -12,11 +12,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<CardData>>{
     private RecyclerView mRecyclerView;
-    private MyAdapter mAdapter;
+//    private MyAdapter mAdapter;
+    private HeterogenousRecyclerAdapter adapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private static final int LOADER_TAG = 1;
     private static final String IMAGE_URL = "https://api.unsplash.com/photos/?client_id=6276e756b3176273ffb9b5ebaa3c26be6aee7f5188849d1212bab55e15e39f9d";
     private static final String NASA_URL = "https://api.nasa.gov/planetary/apod?start_date=2018-01-01&end_date=2018-01-26&api_key=OI4otegmiwDBf2aNYftRcqxVh17Ac5Osy6oyLxRg";
+
+    List<CardData> displayList = new ArrayList<CardData>();
+    List<TextData> textList = new ArrayList<TextData>();
+    List<Object> objectList = new ArrayList<Object>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +40,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // specify an adapter (see also next example)
         List<CardData> myDataset = new ArrayList<CardData>();
-        mAdapter = new MyAdapter(myDataset, MainActivity.this);
-        mRecyclerView.setAdapter(mAdapter);
+//        mAdapter = new MyAdapter(myDataset, MainActivity.this);
+        adapter = new HeterogenousRecyclerAdapter(new ArrayList<Object>(),new ArrayList<CardData>(), new ArrayList<TextData>(), MainActivity.this);
+        mRecyclerView.setAdapter(adapter);
 
         getLoaderManager().initLoader(LOADER_TAG,null, this);
     }
@@ -48,13 +54,40 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(Loader<List<CardData>> loader, List<CardData> data) {
-        mAdapter.clear();
-        mAdapter.addAll(data);
-        mAdapter.notifyDataSetChanged();
+        adapter.clear();
+//        adapter.addData(new TextData("Omelette Recipe", null));
+   //     adapter.addAll(data);
+
+        displayList.clear();
+        displayList.addAll(data);
+        Singleton.photoList = data;
+//        adapter.setDisplayList(displayList);
+
+        textList.clear();
+        textList.addAll(new ArrayList<TextData>() {{
+            add(new TextData("Ingredients", "Eggs, Salt, Edible oil, Onions."));
+            add(new TextData("Steps", "1. Heat the frying pan for 1 minute."));
+            add(new TextData(null, "2. Put 1 tea spoon of oil on the pan and heat the oil."));
+            add(new TextData(null, "3. Put chopped onions in the pan and saute it for 30 seconds."));
+            add(new TextData(null, "4. Put well stirred eggs in the pan."));
+            add(new TextData(null, "5. Flip the omelette after 1 minute."));
+            add(new TextData(null, "6. Wait for 1 minute and the omelette will be ready to eat."));
+        }});
+        Singleton.textList = textList;
+//        adapter.setTextList(textList);
+
+        objectList.clear();
+//        objectList.addAll(displayList);
+//        objectList.addAll(textList);
+        objectList.add(displayList.get(0));
+        objectList.add(textList.get(0));
+        adapter.setTotalData(objectList);
+
+//        adapter.notifyDataSetChanged();
     }
 
     @Override
     public void onLoaderReset(Loader<List<CardData>> loader) {
-        mAdapter.clear();
+        adapter.clear();
     }
 }
