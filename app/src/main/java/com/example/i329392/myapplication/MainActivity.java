@@ -63,6 +63,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Singleton.photoList = data;
 //        adapter.setDisplayList(displayList);
 
+
+        List<TextData> title = new ArrayList<TextData>() {{
+            add(new TextData("Omelette Recipe", null));
+        }};
+        Singleton.title = title;
+
+
         textList.clear();
         textList.addAll(new ArrayList<TextData>() {{
             add(new TextData("Ingredients", "Eggs, Salt, Edible oil, Onions."));
@@ -79,8 +86,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         objectList.clear();
 //        objectList.addAll(displayList);
 //        objectList.addAll(textList);
+        objectList.add(title.get(0));
         objectList.add(displayList.get(0));
-        objectList.add(textList.get(0));
+        objectList.add(textList.get(1));
         adapter.setTotalData(objectList);
 
 //        adapter.notifyDataSetChanged();

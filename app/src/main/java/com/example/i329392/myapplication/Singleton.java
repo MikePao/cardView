@@ -9,6 +9,7 @@ import java.util.List;
 public final class Singleton {
     public static List<TextData> textList;
     public static List<CardData> photoList;
+    public static List<TextData> title;
     private Singleton() {
 
     }
@@ -22,4 +23,8 @@ public final class Singleton {
         return photoList;
     }
 
+    public static List<TextData> getTitle() {
+        System.out.println("INSIDE SINGLETON GET TITLE");
+        return title;
+    }
 }

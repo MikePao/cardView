@@ -21,6 +21,7 @@ public class HeterogenousRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
     List<TextData> textList = new ArrayList<TextData>();
     private static final int PHOTO = 1;
     private static  final int TEXT = 2;
+    private static final int TITLE = 3;
     Context context;
     DisplayImageAdapter mDisplayImageAdapter;
     TextAdapter mTextAdapter;
@@ -46,6 +47,10 @@ public class HeterogenousRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
                 view = inflater.inflate(R.layout.text_vertical_list, parent, false);
                 holder = new TextViewholder(view);
                 break;
+            case TITLE :
+                view = inflater.inflate(R.layout.text_vertical_list, parent, false);
+                holder = new TextViewholder(view);
+                break;
             default:
                 view = inflater.inflate(R.layout.text_vertical_list, parent, false);
                 holder = new TextViewholder(view);
@@ -60,6 +65,14 @@ public class HeterogenousRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             photoView((PhotoViewholder) holder);
         else if (holder.getItemViewType() == TEXT)
             TextWindowView((TextViewholder) holder);
+        else if (holder.getItemViewType() == TITLE)
+            TitleView((TextViewholder) holder);
+    }
+
+    private void TitleView(TextViewholder holder) {
+        TextAdapter adapter3 = new TextAdapter(Singleton.getTitle(), context);
+        holder.textRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        holder.textRecyclerView.setAdapter(adapter3);
     }
 
     private void photoView(PhotoViewholder holder) {
@@ -103,9 +116,13 @@ public class HeterogenousRecyclerAdapter extends RecyclerView.Adapter<RecyclerVi
             }
             if(object  instanceof  TextData){
 //            textList.add((TextData) totalData.get(position));
-                return TEXT;
-            }
+                if(((TextData) object).getText() != null){
+                    return TEXT;
+                }else{
+                    return TITLE;
+                }
 
+            }
 
         }
 
